@@ -5,14 +5,14 @@ import HistoryService from '../../service/historyService.js';
 import WeatherService from '../../service/weatherService.js';
 
 // TODO: POST Request with city name to retrieve weather data
-router.post('/', (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response) => {
   try {
     const { cityname } = req.body;
   // TODO: GET weather data from city name
-  const weatherData = await WeatherService.getWeatherData(city);
+  const weatherData = await WeatherService.getWeatherData(cityname);
 
   // TODO: save city to search history
-  await HistoryService.saveCity(city);
+  await HistoryService.saveCity(cityname);
 
   res.json(weatherData);
   } catch (error) {
@@ -22,7 +22,7 @@ router.post('/', (req: Request, res: Response) => {
 });
 
 // TODO: GET search history
-router.get('/history', async (req: Request, res: Response) => {
+router.get('/history', async (_req: Request, res: Response) => {
 try {
   const history = await HistoryService.getHistory();
   res.json(history);
@@ -32,6 +32,14 @@ try {
 });
 
 // * BONUS TODO: DELETE city from search history
-router.delete('/history/:id', async (req: Request, res: Response) => {});
+router.delete('/history/:id', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await HistoryService.deleteCity(id);
+    res.status(200).json({ message: 'City deleted from history' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete city from history' });
+  }
+});
 
 export default router;
