@@ -5,14 +5,12 @@ dotenv.config();
 // Import the routes
 import routes from './routes/index.js';
 
-const APIKey = "32a0821bf085e82a0d2dc684dedee035";
-
 const app = express();
 
 const PORT = process.env.PORT || 3001;
 
 // TODO: Serve static files of entire client dist folder
-app.use(express.static('dist'));
+app.use(express.static("../client/dist"));
 
 // TODO: Implement middleware for parsing JSON and urlencoded form data
 app.use(express.json());
