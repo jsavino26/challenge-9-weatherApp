@@ -1,4 +1,4 @@
-import { promises as fs } from 'fs';
+import * as fs from 'fs';
 
 // TODO: Define a City class with name and id properties
 class City {
@@ -9,13 +9,13 @@ class City {
 class HistoryService {
   private cities: City[] = [];
   private filePath = 'searchHistory.json';
+  
   constructor() {
     this.read();
   }
 
-  static async saveCity(cityname: string): Promise<void> {
-    const historyService = new HistoryService();
-    await historyService.addCity(cityname);
+  async saveCity(cityname: string): Promise<void> {
+    await this.addCity(cityname);
   }
 
   // TODO: Define a read method that reads from the searchHistory.json file
