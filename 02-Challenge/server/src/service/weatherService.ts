@@ -30,32 +30,14 @@ class WeatherService {
 
   async getWeatherData(cityname: string) {
     this.city = cityname;
-    console.log("Step 1: Fetching coordinates for city:", cityname);
     let coordinates = await this.fetchAndDestructureLocationData();
-    console.log("Coordinates received:", coordinates);
-
-    if (!coordinates || !coordinates.lat || !coordinates.lon) {
-        console.error("Error: Invalid coordinates received", coordinates);
-        return { error: "Could not retrieve location coordinates" };
-    }
-
-    console.log("Step 2: Fetching weather data...");
+    console.log(coordinates);
     let weatherData: any = await this.fetchWeatherData(coordinates);
-    console.log("Raw Weather API Response:", weatherData);
-
-    if (!weatherData || !weatherData.main || !weatherData.weather) {
-        console.error("Error: Invalid weather data received", weatherData);
-        return { error: "Invalid weather data from API" };
-    }
-
-    console.log("Step 3: Parsing current weather...");
+    console.log(weatherData);
     let currentWeather = this.parseCurrentWeather(weatherData);
-    console.log("Parsed Weather Data:", currentWeather);
-
-    console.log("Step 4: Building forecast array...");
+    console.log(currentWeather);
     let forecastArray = this.buildForecastArray(currentWeather, weatherData.list);
-    console.log("Final Forecast Array:", forecastArray);
-
+    console.log(forecastArray);
     return forecastArray;
   }
   // TODO: Define the baseURL, API key, and city name properties
