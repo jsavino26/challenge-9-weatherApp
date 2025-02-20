@@ -6,17 +6,27 @@ import WeatherService from '../../service/weatherService.js';
 
 // TODO: POST Request with city name to retrieve weather data
 router.post('/', async (req: Request, res: Response) => {
+  console.log("Received request with body:", req.body);
   try {
-    const { cityname } = req.body;
+    const { cityName } = req.body;
+
+  if (!cityName) {
+    console.error('City name is missing in the request body');
+    return res.status(400).json({ error: 'City name is required' });
+  }
+
+  console.log('City name received:', cityName);
+
   // TODO: GET weather data from city name
-  const weatherData = await WeatherService.getWeatherData(cityname);
+  const weatherData = await WeatherService.getWeatherData(cityName);
 
   // TODO: save city to search history
-  await HistoryService.saveCity(cityname);
+  await HistoryService.saveCity(cityName);
 
-  res.json(weatherData);
+  return res.json(weatherData);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to retireve weather data' });
+    console.error('Error retrieving weather data:', error);
+    return res.status(500).json({ error: 'Failed to retireve weather data' });
   }
 
 });
@@ -27,6 +37,7 @@ try {
   const history = await HistoryService.getCities();
   res.json(history);
 } catch (error) {
+  console.error('Error retrieving search history:', error);
   res.status(500).json({ error: 'Failed to retrieve search history' });
 }
 });
