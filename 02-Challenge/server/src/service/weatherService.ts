@@ -76,12 +76,13 @@ class WeatherService {
 
   // Parse the current weather data
   private parseCurrentWeather(response: WeatherResponse): Weather {
+    console.log (response.list);
     const { main, wind, weather } = response.list[0];
     return {
       temp: main.temp,
       humidity: main.humidity,
       wind_speed: wind.speed,
-      weather: weather[0].description,
+      weather: weather[0].description
     };
   }
 
